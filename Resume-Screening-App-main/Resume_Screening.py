@@ -1,8 +1,4 @@
-# you need to install all these in your terminal
-# pip install streamlit
-# pip install scikit-learn
-# pip install python-docx
-# pip install PyPDF2
+
 
 
 import streamlit as st
@@ -11,13 +7,12 @@ import docx  # Extract text from Word file
 import PyPDF2  # Extract text from PDF
 import re
 
-# Load pre-trained model and TF-IDF vectorizer (ensure these are saved earlier)
-svc_model = pickle.load(open('clf.pkl', 'rb'))  # Example file name, adjust as needed
-tfidf = pickle.load(open('tfidf.pkl', 'rb'))  # Example file name, adjust as needed
-le = pickle.load(open('encoder.pkl', 'rb'))  # Example file name, adjust as needed
+svc_model = pickle.load(open('clf.pkl', 'rb'))  
+tfidf = pickle.load(open('tfidf.pkl', 'rb'))  
+le = pickle.load(open('encoder.pkl', 'rb'))  
 
 
-# Function to clean resume text
+
 def cleanResume(txt):
     cleanText = re.sub('http\S+\s', ' ', txt)
     cleanText = re.sub('RT|cc', ' ', cleanText)
@@ -29,7 +24,7 @@ def cleanResume(txt):
     return cleanText
 
 
-# Function to extract text from PDF
+
 def extract_text_from_pdf(file):
     pdf_reader = PyPDF2.PdfReader(file)
     text = ''
@@ -38,7 +33,7 @@ def extract_text_from_pdf(file):
     return text
 
 
-# Function to extract text from DOCX
+
 def extract_text_from_docx(file):
     doc = docx.Document(file)
     text = ''
@@ -47,7 +42,7 @@ def extract_text_from_docx(file):
     return text
 
 
-# Function to extract text from TXT with explicit encoding handling
+
 def extract_text_from_txt(file):
     # Try using utf-8 encoding for reading the text file
     try:
@@ -58,7 +53,6 @@ def extract_text_from_txt(file):
     return text
 
 
-# Function to handle file upload and extraction
 def handle_file_upload(uploaded_file):
     file_extension = uploaded_file.name.split('.')[-1].lower()
     if file_extension == 'pdf':
@@ -72,7 +66,7 @@ def handle_file_upload(uploaded_file):
     return text
 
 
-# Function to predict the category of a resume
+
 def pred(input_resume):
     # Preprocess the input text (e.g., cleaning, etc.)
     cleaned_text = cleanResume(input_resume)
@@ -92,7 +86,7 @@ def pred(input_resume):
     return predicted_category_name[0]  # Return the category name
 
 
-# Streamlit app layout
+
 def main():
     st.set_page_config(page_title="Resume Category Prediction", page_icon="📄", layout="wide")
 
